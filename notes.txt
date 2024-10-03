@@ -1,0 +1,55 @@
+THINGS OF NOTES
+----------------------------------------------------------
+
+to make a basic window:
+- import the module
+- initalize it 
+- use py.display.set_mode((width, height)) to make a screen
+- start a infinite loop
+- inside it add 
+    for event in pygame.events():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+to make everything organized: used OOP
+
+to add image:
+- make a image var using self.img = pygame.image.load(PATH)
+- in the game loop add screen.blit(img, (x_loc, y_loc))
+
+to add movement:
+- can make a list for keeping every direction [up, down, left, right] as bool i.e. if any motion is happening or not 
+- then in the game loop add 
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP:
+            self.img_mov[0] = True
+        if event.key == pygame.K_DOWN:
+            self.img_mov[1] = True
+        if event.key == pygame.K_LEFT:
+            self.img_mov[2] = True
+        if event.key == pygame.K_RIGHT:
+            self.img_mov[3] = True
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_UP:
+            self.img_mov[0] = False
+        if event.key == pygame.K_DOWN:
+            self.img_mov[1] = False
+        if event.key == pygame.K_LEFT:
+            self.img_mov[2] = False
+        if event.key == pygame.K_RIGHT:
+            self.img_mov[3] = False
+- and before bliting the image add
+    self.img_pos[1] += (self.img_mov[1] - self.img_mov[0]) * 5 # for velocity
+    self.img_pos[0] += (self.img_mov[3] - self.img_mov[2]) * 5
+
+to remove the weird black background:
+- after loading the image use this function to set the colorkey i.e. the color that becomes transparent
+    self.img.set_colorkey((0, 0, 0))
+
+to have basic collision detection:
+- have two rectsmade using this function
+    self.colision_area = pygame.Rect(loc_on_screen_x, loc_on_screen_y, rect_width, rect_height)
+- in the game loop add the following if else statement
+    if img_rect.colliderect(self.colision_area):
+        # something to do as the collision is happening
